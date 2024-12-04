@@ -21,14 +21,19 @@ import {
 } from "@/components/ui/tooltip"
 import { Input } from "@/components/ui/input"
 
-export interface CredentialsSubmitPayload {
+export interface Credentials {
     email: string;
     password: string;
 }
 
+export interface CredentialsInitialValue extends Credentials {
+  matchingPasswordConfirmed: boolean
+}
+
 interface CredentialsFormProps {
-  onCredentialsSubmit: (credentials: CredentialsSubmitPayload) => void;
-  onBackClick: () => void;
+  credentialsInitialValue: CredentialsInitialValue;
+  onCredentialsSubmit: (credentials: Credentials) => void;
+  onBackClick: (savedCredentials: Partial<CredentialsInitialValue>) => void;
 }
 
 
@@ -50,18 +55,43 @@ const CredentialsFormSchema = z.object({
     path: ["confirmPassword"], // This sets which field the error is attached to
   });
 
-export function CredentialsForm({ onCredentialsSubmit, onBackClick }: CredentialsFormProps) {  
+export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, onBackClick }: CredentialsFormProps) {  
   const form = useForm<z.infer<typeof CredentialsFormSchema>>({
+    mode: "onTouched",
     resolver: zodResolver(CredentialsFormSchema),
     defaultValues: {
-        email: "",
-        password: "",
-        confirmPassword: "",
+        email: credentialsInitialValue.email ?? "",
+        password: credentialsInitialValue.password ?? "",
+        confirmPassword: credentialsInitialValue.matchingPasswordConfirmed ?  credentialsInitialValue.password : "",
     },
   });
 
   function onSubmit(data: z.infer<typeof CredentialsFormSchema>) {
     onCredentialsSubmit(data);
+  }
+
+  function handleBackClick() {
+    const dirtyFields = Object.keys(form.formState.dirtyFields) as Array<keyof Credentials | "confirmPassword">;
+    
+    const validDirtyFields: Partial<CredentialsInitialValue> = {};
+
+    dirtyFields.forEach((field) =>  {
+      // if field is dirty but has error, do not save input
+      if (!!form.formState.errors[field]) {
+        return;
+      }
+
+      if (field === "confirmPassword") {
+        // only set matchingPasswordConfirmed to true if password is valid
+        if (!form.formState.errors.password) {
+          validDirtyFields.matchingPasswordConfirmed = true;
+        }
+        return;
+      }
+      validDirtyFields[field] =  form.getValues(field);
+    });
+
+    onBackClick(validDirtyFields);
   }
 
   return (
@@ -72,7 +102,7 @@ export function CredentialsForm({ onCredentialsSubmit, onBackClick }: Credential
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel className="font-bold">Email</FormLabel>
               <FormControl>
                 <Input placeholder="e.g. me@me.com" {...field} />
               </FormControl>
@@ -88,7 +118,7 @@ export function CredentialsForm({ onCredentialsSubmit, onBackClick }: Credential
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel className="font-bold">Password</FormLabel>
               <FormControl>
                 <Input type="password" {...field} />
               </FormControl>
@@ -120,7 +150,7 @@ export function CredentialsForm({ onCredentialsSubmit, onBackClick }: Credential
             name="confirmPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Confirm Password</FormLabel>
+                <FormLabel className="font-bold">Confirm Password</FormLabel>
                 <FormControl>
                   <Input type="password" {...field} />
                 </FormControl>
@@ -133,8 +163,8 @@ export function CredentialsForm({ onCredentialsSubmit, onBackClick }: Credential
           />
         )}
         <div className="flex flex-row-reverse gap-4">
-          <Button className="min-w-28" type="submit">Register</Button>
-          <Button variant="outline" onClick={onBackClick}>
+          <Button className="min-w-28" type="submit" disabled={!form.formState.isValid}>Register</Button>
+          <Button variant="outline" onClick={handleBackClick}>
             <ChevronLeft /> Previous
           </Button>
         </div>

@@ -1,6 +1,7 @@
 "use client"
 import { NameForm } from "@/components/nameForm"
-import { CredentialsForm, CredentialsSubmitPayload } from "@/components/credentialsForm"
+import { CredentialsForm } from "@/components/credentialsForm"
+import type { Credentials, CredentialsInitialValue } from "@/components/credentialsForm"
 import {
     Card,
     CardContent,
@@ -14,6 +15,7 @@ interface RegisterUserState {
     username: string;
     email: string;
     password: string;
+    matchingPasswordConfirmed: boolean;
   }
   
 export default function Register() {
@@ -23,6 +25,7 @@ export default function Register() {
         username: "",
         email: "",
         password: "",
+        matchingPasswordConfirmed: false,
     });
 
     function handleNameSubmit(submittedName: string ) {
@@ -30,11 +33,12 @@ export default function Register() {
         setFormStep(1);
     }
 
-    function handleCredentialsSubmit(submittedCredentials: CredentialsSubmitPayload) {
+    function handleCredentialsSubmit(submittedCredentials: Credentials) {
       setNewUser({ ...newUser, ...submittedCredentials });
     }
 
-    function handleBackClick() {
+    function handleBackClick(savedCredentials: Partial<CredentialsInitialValue>) {
+        setNewUser({ ...newUser, ...savedCredentials });
         setFormStep(0);
     }
 
@@ -57,8 +61,12 @@ export default function Register() {
                         <CardDescription>To continue to the app, please register:</CardDescription>
                     </CardHeader>
                     <CardContent>
-                    {formStep === 0 && <NameForm onNameSubmit={handleNameSubmit} />}
-                    {formStep === 1  && <CredentialsForm onCredentialsSubmit={handleCredentialsSubmit} onBackClick={handleBackClick} />}
+                    {formStep === 0 && <NameForm nameInitialValue={newUser.username} onNameSubmit={handleNameSubmit} />}
+                    {formStep === 1  && 
+                      <CredentialsForm 
+                        credentialsInitialValue={{email: newUser.email, password: newUser.password, matchingPasswordConfirmed: newUser.matchingPasswordConfirmed}} 
+                        onCredentialsSubmit={handleCredentialsSubmit} 
+                        onBackClick={handleBackClick} />}
                     </CardContent>
                 </Card>
             </main>

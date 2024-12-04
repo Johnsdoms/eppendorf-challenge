@@ -20,11 +20,17 @@ const UserNameFormSchema = z.object({
   }),
 })
 
-export function NameForm({onNameSubmit}: { onNameSubmit: (name: string) => void }) {
+interface NameFormProps {
+  nameInitialValue: string;
+  onNameSubmit: (name: string) => void;
+}
+
+export function NameForm({nameInitialValue, onNameSubmit}: NameFormProps) {
   const form = useForm<z.infer<typeof UserNameFormSchema>>({
+    mode: "onTouched",
     resolver: zodResolver(UserNameFormSchema),
     defaultValues: {
-      username: "",
+      username: nameInitialValue ?? "",
     },
   })
 
@@ -40,7 +46,7 @@ export function NameForm({onNameSubmit}: { onNameSubmit: (name: string) => void 
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel className="font-bold">Name</FormLabel>
               <FormControl>
                 <Input placeholder="e.g. Jonas" {...field} />
               </FormControl>
