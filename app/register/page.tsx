@@ -1,5 +1,5 @@
 "use client"
-import { RegisterForm } from "@/components/registerForm"
+import { NameForm } from "@/components/nameForm"
 import { CredentialsForm, CredentialsSubmitPayload } from "@/components/credentialsForm"
 import {
     Card,
@@ -57,7 +57,7 @@ export default function Register() {
                         <CardDescription>To continue to the app, please register:</CardDescription>
                     </CardHeader>
                     <CardContent>
-                    {formStep === 0 && <RegisterForm onNameSubmit={handleNameSubmit} />}
+                    {formStep === 0 && <NameForm onNameSubmit={handleNameSubmit} />}
                     {formStep === 1  && <CredentialsForm onCredentialsSubmit={handleCredentialsSubmit} onBackClick={handleBackClick} />}
                     </CardContent>
                 </Card>

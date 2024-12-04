@@ -20,7 +20,7 @@ const UserNameFormSchema = z.object({
   }),
 })
 
-export function RegisterForm({onNameSubmit}: { onNameSubmit: (name: string) => void }) {
+export function NameForm({onNameSubmit}: { onNameSubmit: (name: string) => void }) {
   const form = useForm<z.infer<typeof UserNameFormSchema>>({
     resolver: zodResolver(UserNameFormSchema),
     defaultValues: {
