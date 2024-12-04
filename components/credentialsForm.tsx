@@ -96,12 +96,12 @@ export function CredentialsForm({ onCredentialsSubmit, onBackClick }: Credential
                 Check password requirements
                 <TooltipProvider>
                   <Tooltip delayDuration={100}>
-                    <TooltipTrigger className="pl-1 underline"> here</TooltipTrigger>
+                    <TooltipTrigger className="pl-1 underline">here</TooltipTrigger>
                       <TooltipContent>
                         <p>Password must fullfill following criteria:</p>
                         <ul className="list-disc ps-4">
                           <li>At least 8 characters long</li>
-                          <li>At least one lowecase character</li>
+                          <li>At least one lowercase character</li>
                           <li>At least one uppercase character</li>
                           <li>At least one special character</li>
                           <li>At least one number</li>
