@@ -15,12 +15,12 @@ import {
 import { Input } from "@/components/ui/input"
 
 const UserNameFormSchema = z.object({
-  username: z.string().min(2, {
+  username: z.string().trim().min(2, {
     message: "Name too short. Must be at least 2 characters long.",
   }),
 })
 
-export function RegisterForm() {
+export function RegisterForm({onNameSubmit}: { onNameSubmit: (name: string) => void }) {
   const form = useForm<z.infer<typeof UserNameFormSchema>>({
     resolver: zodResolver(UserNameFormSchema),
     defaultValues: {
@@ -29,9 +29,7 @@ export function RegisterForm() {
   })
 
   function onSubmit(data: z.infer<typeof UserNameFormSchema>) {
-    console.log("submitted username", data.username)
-
-    // todo: handle data submission and next step
+    onNameSubmit(data.username);
   }
 
   return (
