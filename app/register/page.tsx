@@ -1,7 +1,7 @@
 "use client"
 import { NameForm } from "@/components/nameForm"
 import { CredentialsForm } from "@/components/credentialsForm"
-import type { Credentials, CredentialsInitialValue } from "@/components/credentialsForm"
+import type { Credentials } from "@/components/credentialsForm"
 import {
     Card,
     CardContent,
@@ -15,7 +15,6 @@ interface RegisterUserState {
     username: string;
     email: string;
     password: string;
-    matchingPasswordConfirmed: boolean;
   }
   
 export default function Register() {
@@ -25,7 +24,6 @@ export default function Register() {
         username: "",
         email: "",
         password: "",
-        matchingPasswordConfirmed: false,
     });
 
     function handleNameSubmit(submittedName: string ) {
@@ -37,7 +35,7 @@ export default function Register() {
       setNewUser({ ...newUser, ...submittedCredentials });
     }
 
-    function handleBackClick(savedCredentials: Partial<CredentialsInitialValue>) {
+    function handleBackClick(savedCredentials: Partial<Credentials>) {
         setNewUser({ ...newUser, ...savedCredentials });
         setFormStep(0);
     }
@@ -64,7 +62,7 @@ export default function Register() {
                     {formStep === 0 && <NameForm nameInitialValue={newUser.username} onNameSubmit={handleNameSubmit} />}
                     {formStep === 1  && 
                       <CredentialsForm 
-                        credentialsInitialValue={{email: newUser.email, password: newUser.password, matchingPasswordConfirmed: newUser.matchingPasswordConfirmed}} 
+                        credentialsInitialValue={{email: newUser.email, password: newUser.password}} 
                         onCredentialsSubmit={handleCredentialsSubmit} 
                         onBackClick={handleBackClick} />}
                     </CardContent>

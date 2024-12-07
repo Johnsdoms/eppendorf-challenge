@@ -28,14 +28,11 @@ export interface Credentials {
     password: string;
 }
 
-export interface CredentialsInitialValue extends Credentials {
-  matchingPasswordConfirmed: boolean
-}
 
 interface CredentialsFormProps {
-  credentialsInitialValue: CredentialsInitialValue;
+  credentialsInitialValue: Credentials;
   onCredentialsSubmit: (credentials: Credentials) => void;
-  onBackClick: (savedCredentials: Partial<CredentialsInitialValue>) => void;
+  onBackClick: (savedCredentials: Partial<Credentials>) => void;
 }
 
 const PasswordSchema = z
@@ -49,11 +46,6 @@ const PasswordSchema = z
 const CredentialsFormSchema = z.object({
   email: z.string().min(1, { message: "Required"}).email({ message: "Invalid email address." }),
   password: PasswordSchema,
-  confirmPassword: z.string(),
-  })
-  .refine(data => data.password === data.confirmPassword, {
-    message: "The passwords must match.",
-    path: ["confirmPassword"], // This sets which field the error is attached to
   });
 
 export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, onBackClick }: CredentialsFormProps) {  
@@ -63,7 +55,6 @@ export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, 
     defaultValues: {
         email: credentialsInitialValue.email ?? "",
         password: credentialsInitialValue.password ?? "",
-        confirmPassword: credentialsInitialValue.matchingPasswordConfirmed ?  credentialsInitialValue.password : "",
     },
   });
 
@@ -78,9 +69,9 @@ export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, 
   }
 
   function handleBackClick() {
-    const dirtyFields = Object.keys(form.formState.dirtyFields) as Array<keyof Credentials | "confirmPassword">;
+    const dirtyFields = Object.keys(form.formState.dirtyFields) as Array<keyof Credentials>;
     
-    const validDirtyFields: Partial<CredentialsInitialValue> = {};
+    const validDirtyFields: Partial<Credentials> = {};
 
     dirtyFields.forEach((field) =>  {
       // if field is dirty but has error, do not save input
@@ -88,13 +79,6 @@ export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, 
         return;
       }
 
-      if (field === "confirmPassword") {
-        // only set matchingPasswordConfirmed to true if password is valid
-        if (!form.formState.errors.password) {
-          validDirtyFields.matchingPasswordConfirmed = true;
-        }
-        return;
-      }
       validDirtyFields[field] =  form.getValues(field);
     });
 
@@ -156,24 +140,6 @@ export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, 
             </FormItem>
           )}
         />
-        {form.getValues().password && (
-          <FormField
-            control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-bold">Confirm Password</FormLabel>
-                <FormControl>
-                  <Input type="password" {...field} />
-                </FormControl>
-                <FormDescription>
-                  Reenter password.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        )}
         <div className="flex flex-row-reverse gap-4">
           <Button className="min-w-28" type="submit" disabled={!form.formState.isValid}>Register</Button>
           <Button variant="outline" onClick={handleBackClick}>
