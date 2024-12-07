@@ -111,17 +111,15 @@ export const columns: ColumnDef<Product>[] = [
               sortDirection={column.getIsSorted()}
               onSort={() => 
               {
-                console.log("sorting color", column)
-                column.toggleSorting();
+                column.toggleSorting(column.getIsSorted() === "asc");
               }
               }
             />
           </div>
         )
       },
-      sortingFn: (a, b) => {
-        console.log("sorting color", a.original.color, b.original.color)
-        return 1;
+      sortingFn: (rowA: Row<Product>, rowB: Row<Product>): number => {
+        return hexSortingFn(rowA, rowB);
       },
       cell: ({ row }) => {
         return (
