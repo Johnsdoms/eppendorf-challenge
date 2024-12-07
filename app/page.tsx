@@ -1,5 +1,5 @@
 import { PageLink } from "@/components/pageLink";
-import { KeyRound } from 'lucide-react';
+import { KeyRound, Table } from 'lucide-react';
 
 export default function Home() {
   return (
@@ -9,9 +9,14 @@ export default function Home() {
           Pick route to check out my solutions for the respective tasks:
         </p>
 
-        <PageLink href="/register" name="Register">
-          <KeyRound size={48} />
-        </PageLink>
+        <div className="flex w-full gap-8">
+          <PageLink href="/table" name="table">
+            <Table size={48} />
+          </PageLink>
+          <PageLink href="/register" name="Register">
+            <KeyRound size={48} />
+          </PageLink>
+        </div>
       </main>
     </div>
   );

@@ -9,8 +9,8 @@ interface PageLinkProps {
 
 export function PageLink({href, name, children}: PageLinkProps) {
   return (
-    <Link href={href}>
-        <Card className="w-1/3 h-40 flex justify-center items-center hover:bg-slate-200 hover:scale-105 transition-all" >
+    <Link className="w-1/3 h-40" href={href}>
+        <Card className="h-full flex justify-center items-center hover:bg-slate-200 hover:scale-105 transition-all" >
             <div className="flex flex-col justify-center items-center">
                 {children}
                 <h2 className="text-xl font-bold">{name}</h2>   
