@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint . --fix",
+    "checklint": "eslint ."
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -19,24 +20,26 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "color-sorter": "^6.1.0",
-    "lucide-react": "^0.465.0",
-    "next": "14.2.16",
-    "react": "^18",
-    "react-dom": "^18",
-    "react-hook-form": "^7.53.2",
+    "lucide-react": "^0.468.0",
+    "next": "^15.0.0",
+    "react": "^19",
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.54.0",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.16",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "@antfu/eslint-config": "^3.11.2",
+    "@eslint-react/eslint-plugin": "^1.17.3",
+    "@types/node": "^22.10.1",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.1",
+    "eslint": "^9.16.0",
+    "eslint-plugin-react-refresh": "^0.4.16",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.16",
+    "typescript": "^5.7.2"
   },
   "packageManager": "pnpm@9.14.2+sha512.6e2baf77d06b9362294152c851c4f278ede37ab1eba3a55fda317a4a17b209f4dbb973fb250a77abc463a341fcb1f17f17cfa24091c4eb319cda0d9b84278387"
 }
