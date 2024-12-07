@@ -1,10 +1,5 @@
 "use client"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
 import { Button } from "@/components/ui/button"
-import { Toggle } from "@/components/ui/toggle"
-import { ChevronLeft, Eye, EyeOff } from "lucide-react"
 import {
   Form,
   FormControl,
@@ -14,77 +9,81 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Toggle } from "@/components/ui/toggle"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { Input } from "@/components/ui/input"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { ChevronLeft, Eye, EyeOff } from "lucide-react"
 import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
 
 export interface Credentials {
-    email: string;
-    password: string;
+  email: string
+  password: string
 }
 
-
 interface CredentialsFormProps {
-  credentialsInitialValue: Credentials;
-  onCredentialsSubmit: (credentials: Credentials) => void;
-  onBackClick: (savedCredentials: Partial<Credentials>) => void;
+  credentialsInitialValue: Credentials
+  onCredentialsSubmit: (credentials: Credentials) => void
+  onBackClick: (savedCredentials: Partial<Credentials>) => void
 }
 
 const PasswordSchema = z
-    .string()
-    .min(8, { message: 'Password must be at least 8 characters long.' })
-    .regex(/[A-Z]/, { message: 'Password must contain at least one uppercase letter.' })
-    .regex(/[a-z]/, { message: 'Password must contain at least one lowercase letter.' })
-    .regex(/\d/, { message: 'Password must contain at least one number.' })
-    .regex(/[!@#$%^&*(),.?":{}|<>]/, {message: "Password must contain at least one special character."});
+  .string()
+  .min(8, { message: "Password must be at least 8 characters long." })
+  .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter." })
+  .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter." })
+  .regex(/\d/, { message: "Password must contain at least one number." })
+  .regex(/[!@#$%^&*(),.?":{}|<>]/, { message: "Password must contain at least one special character." })
 
 const CredentialsFormSchema = z.object({
-  email: z.string().min(1, { message: "Required"}).email({ message: "Invalid email address." }),
+  email: z.string().min(1, { message: "Required" }).email({ message: "Invalid email address." }),
   password: PasswordSchema,
-  });
+})
 
-const errorInputStyling = "border-red-400 border-2";
+const errorInputStyling = "border-red-400 border-2"
 
-export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, onBackClick }: CredentialsFormProps) {  
+export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, onBackClick }: CredentialsFormProps) {
   const form = useForm<z.infer<typeof CredentialsFormSchema>>({
     mode: "onTouched",
     resolver: zodResolver(CredentialsFormSchema),
     defaultValues: {
-        email: credentialsInitialValue.email ?? "",
-        password: credentialsInitialValue.password ?? "",
+      email: credentialsInitialValue.email ?? "",
+      password: credentialsInitialValue.password ?? "",
     },
-  });
+  })
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
 
   const toggleShowPassword = () => {
-    setShowPassword((prev) => !prev);
- };
+    setShowPassword(prev => !prev)
+  }
 
   function onSubmit(data: z.infer<typeof CredentialsFormSchema>) {
-    onCredentialsSubmit(data);
+    onCredentialsSubmit(data)
   }
 
   function handleBackClick() {
-    const dirtyFields = Object.keys(form.formState.dirtyFields) as Array<keyof Credentials>;
-    
-    const validDirtyFields: Partial<Credentials> = {};
+    const dirtyFields = Object.keys(form.formState.dirtyFields) as Array<keyof Credentials>
 
-    dirtyFields.forEach((field) =>  {
+    const validDirtyFields: Partial<Credentials> = {}
+
+    dirtyFields.forEach((field) => {
       // if field is dirty but has error, do not save input
-      if (!!form.formState.errors[field]) {
-        return;
+      if (form.formState.errors[field]) {
+        return
       }
 
-      validDirtyFields[field] =  form.getValues(field);
-    });
+      validDirtyFields[field] = form.getValues(field)
+    })
 
-    onBackClick(validDirtyFields);
+    onBackClick(validDirtyFields)
   }
 
   return (
@@ -97,9 +96,11 @@ export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, 
             <FormItem>
               <FormLabel className="font-bold">Email</FormLabel>
               <FormControl>
-                <Input 
-                  className={`${!!form.formState.errors["email"] && errorInputStyling}`}
-                  placeholder="e.g. me@me.com" {...field} />
+                <Input
+                  className={`${!!form.formState.errors.email && errorInputStyling}`}
+                  placeholder="e.g. me@me.com"
+                  {...field}
+                />
               </FormControl>
               <FormDescription>
                 Enter a valid email address.
@@ -114,32 +115,33 @@ export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, 
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-bold">Password</FormLabel>
-                <FormControl>
-                  <div className="flex gap-2">
-                    <Input 
-                      className={`${!!form.formState.errors["password"] && errorInputStyling}`}
-                      type={showPassword ? "text" : "password"} 
-                      {...field} />
-                    <Toggle variant="outline" onClick={toggleShowPassword}>
-                      {!showPassword ? <Eye /> : <EyeOff />}
-                    </Toggle>
-                  </div>
-                </FormControl>
+              <FormControl>
+                <div className="flex gap-2">
+                  <Input
+                    className={`${!!form.formState.errors.password && errorInputStyling}`}
+                    type={showPassword ? "text" : "password"}
+                    {...field}
+                  />
+                  <Toggle variant="outline" onClick={toggleShowPassword}>
+                    {!showPassword ? <Eye /> : <EyeOff />}
+                  </Toggle>
+                </div>
+              </FormControl>
               <FormDescription>
                 Check password requirements
                 <TooltipProvider>
                   <Tooltip delayDuration={100}>
                     <TooltipTrigger className="pl-1 underline">here</TooltipTrigger>
-                      <TooltipContent>
-                        <p>Password must fullfill following criteria:</p>
-                        <ul className="list-disc ps-4">
-                          <li>At least 8 characters long</li>
-                          <li>At least one lowercase character</li>
-                          <li>At least one uppercase character</li>
-                          <li>At least one special character</li>
-                          <li>At least one number</li>
-                        </ul>
-                      </TooltipContent>
+                    <TooltipContent>
+                      <p>Password must fullfill following criteria:</p>
+                      <ul className="list-disc ps-4">
+                        <li>At least 8 characters long</li>
+                        <li>At least one lowercase character</li>
+                        <li>At least one uppercase character</li>
+                        <li>At least one special character</li>
+                        <li>At least one number</li>
+                      </ul>
+                    </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
               </FormDescription>
@@ -150,7 +152,9 @@ export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, 
         <div className="flex flex-row-reverse gap-4">
           <Button className="min-w-28" type="submit" disabled={!form.formState.isValid}>Register</Button>
           <Button variant="outline" onClick={handleBackClick}>
-            <ChevronLeft /> Previous
+            <ChevronLeft />
+            {" "}
+            Previous
           </Button>
         </div>
       </form>

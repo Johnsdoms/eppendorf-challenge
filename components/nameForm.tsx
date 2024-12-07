@@ -1,7 +1,4 @@
 "use client"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -13,6 +10,9 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
 
 const UserNameFormSchema = z.object({
   username: z.string().trim().min(2, {
@@ -21,11 +21,11 @@ const UserNameFormSchema = z.object({
 })
 
 interface NameFormProps {
-  nameInitialValue: string;
-  onNameSubmit: (name: string) => void;
+  nameInitialValue: string
+  onNameSubmit: (name: string) => void
 }
 
-export function NameForm({nameInitialValue, onNameSubmit}: NameFormProps) {
+export function NameForm({ nameInitialValue, onNameSubmit }: NameFormProps) {
   const form = useForm<z.infer<typeof UserNameFormSchema>>({
     mode: "onTouched",
     resolver: zodResolver(UserNameFormSchema),
@@ -35,7 +35,7 @@ export function NameForm({nameInitialValue, onNameSubmit}: NameFormProps) {
   })
 
   function onSubmit(data: z.infer<typeof UserNameFormSchema>) {
-    onNameSubmit(data.username);
+    onNameSubmit(data.username)
   }
 
   return (
@@ -48,9 +48,11 @@ export function NameForm({nameInitialValue, onNameSubmit}: NameFormProps) {
             <FormItem>
               <FormLabel className="font-bold">Name</FormLabel>
               <FormControl>
-                <Input 
-                  className={`${!!form.formState.errors["username"] && "border-red-400 border-2"}`} 
-                  placeholder="e.g. Jonas" {...field} />
+                <Input
+                  className={`${!!form.formState.errors.username && "border-red-400 border-2"}`}
+                  placeholder="e.g. Jonas"
+                  {...field}
+                />
               </FormControl>
               <FormDescription>
                 Pick a name that is at least 2 characters long.
