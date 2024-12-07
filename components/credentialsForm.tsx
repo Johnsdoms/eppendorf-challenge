@@ -3,7 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
-import { ChevronLeft } from "lucide-react"
+import { Toggle } from "@/components/ui/toggle"
+import { ChevronLeft, Eye, EyeOff } from "lucide-react"
 import {
   Form,
   FormControl,
@@ -20,6 +21,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { Input } from "@/components/ui/input"
+import { useState } from "react"
 
 export interface Credentials {
     email: string;
@@ -65,6 +67,12 @@ export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, 
         confirmPassword: credentialsInitialValue.matchingPasswordConfirmed ?  credentialsInitialValue.password : "",
     },
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const toggleShowPassword = () => {
+    setShowPassword((prev) => !prev);
+ };
 
   function onSubmit(data: z.infer<typeof CredentialsFormSchema>) {
     onCredentialsSubmit(data);
@@ -120,7 +128,12 @@ export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, 
             <FormItem>
               <FormLabel className="font-bold">Password</FormLabel>
               <FormControl>
-                <Input type="password" {...field} />
+                  <div className="flex gap-2">
+                    <Input type={showPassword ? "text" : "password"} {...field} />
+                    <Toggle variant="outline" onClick={toggleShowPassword}>
+                      {!showPassword ? <Eye /> : <EyeOff />}
+                    </Toggle>
+                  </div>
               </FormControl>
               <FormDescription>
                 Check password requirements
