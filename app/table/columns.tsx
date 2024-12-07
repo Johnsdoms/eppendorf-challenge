@@ -1,7 +1,6 @@
 "use client"
-import { Button } from "@/components/ui/button";
-import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown } from "lucide-react"
+import { ColumnDef, Row } from "@tanstack/react-table"
+import { SortableColumnHeader } from "@/components/sortableColumnHeader";
 
 // simplification of what a valid hex value is
 type ColorValueHex = `#${string}`;
@@ -21,35 +20,76 @@ export const columns: ColumnDef<Product>[] = [
       accessorKey: "id",
       header: ({ column }) => {
         return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            ID
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
+          <SortableColumnHeader 
+            title="ID" 
+            type="numeric" 
+            sortDirection={column.getIsSorted()}
+            onSort={() => column.toggleSorting(column.getIsSorted() === "asc")}/>
         )
       },
   },
   {
     accessorKey: "location",
-    header: "Location",
+    header: ({ column }) => {
+      return (
+        <SortableColumnHeader 
+          title="Location" 
+          type="alpha" 
+          sortDirection={column.getIsSorted()}
+          onSort={() => column.toggleSorting(column.getIsSorted() === "asc")}/>
+      )
+    },
   },
   {
     accessorKey: "type",
-    header: "Type",
+    header: ({ column }) => {
+      return (
+        <SortableColumnHeader 
+          title="Type" 
+          type="alpha" 
+          sortDirection={column.getIsSorted()}
+          onSort={() => column.toggleSorting(column.getIsSorted() === "asc")}/>
+      )
+    },
   },
   {
     accessorKey: "device_health",
-    header: "Device Health",
+    header: ({ column }) => {
+      return (
+        <SortableColumnHeader 
+          title="Device Health" 
+          type="alpha"
+          sortDirection={column.getIsSorted()}
+          onSort={() => column.toggleSorting(column.getIsSorted() === "asc")}/>
+      )
+    },
   },
   {
     accessorKey: "last_used",
-    header: "Last Used",
+    header: ({ column }) => {
+      return (
+        <SortableColumnHeader 
+          title="Last used" 
+          type="date" 
+          sortDirection={column.getIsSorted()}
+          onSort={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
+      )
+    }
   },
   {
     accessorKey: "price",
-    header: () => <div className="text-right">Price</div>,
+    header: ({ column }) => {
+      return (
+      <div className="text-right">
+        <SortableColumnHeader 
+          title="Price" 
+          type="numeric" 
+          sortDirection={column.getIsSorted()}
+          onSort={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
+      </div>
+      )},
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("price"))
       const formatted = new Intl.NumberFormat("en-US", {
@@ -62,7 +102,27 @@ export const columns: ColumnDef<Product>[] = [
   },
   {
       accessorKey: "color",
-      header: () => <div className="text-right">Color</div>,
+      header: ({ column }) => {
+        return (
+          <div className="text-right">
+            <SortableColumnHeader 
+              title="Color" 
+              type="numeric" 
+              sortDirection={column.getIsSorted()}
+              onSort={() => 
+              {
+                console.log("sorting color", column)
+                column.toggleSorting();
+              }
+              }
+            />
+          </div>
+        )
+      },
+      sortingFn: (a, b) => {
+        console.log("sorting color", a.original.color, b.original.color)
+        return 1;
+      },
       cell: ({ row }) => {
         return (
           <div className="flex justify-end items-center gap-1">
