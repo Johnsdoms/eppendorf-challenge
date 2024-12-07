@@ -1,6 +1,7 @@
 "use client"
 import { ColumnDef, Row } from "@tanstack/react-table"
 import { SortableColumnHeader } from "@/components/sortableColumnHeader";
+import { hexSortingFn } from "@/lib/sortFns";
 
 // simplification of what a valid hex value is
 type ColorValueHex = `#${string}`;
