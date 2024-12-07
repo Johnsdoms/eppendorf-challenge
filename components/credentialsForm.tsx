@@ -38,18 +38,17 @@ interface CredentialsFormProps {
   onBackClick: (savedCredentials: Partial<CredentialsInitialValue>) => void;
 }
 
-
-// at least one uppercase letter, one lowercase letter, one number and one special character
-const passwordComplexityValidation = new RegExp(
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#?!@$%^&*-])[A-Za-z\d@$!%*?&]+$/
-);
+const PasswordSchema = z
+    .string()
+    .min(8, { message: 'Password must be at least 8 characters long.' })
+    .regex(/[A-Z]/, { message: 'Password must contain at least one uppercase letter.' })
+    .regex(/[a-z]/, { message: 'Password must contain at least one lowercase letter.' })
+    .regex(/\d/, { message: 'Password must contain at least one number.' })
+    .regex(/[!@#$%^&*(),.?":{}|<>]/, {message: "Password must contain at least one special character."});
 
 const CredentialsFormSchema = z.object({
-  email: z.string().min(1, { message: "Required"}).email({ message: "Invalid email address" }),
-  password: z.string().min(8, { message: "Password must be at least 8 characters long" })
-    .regex(passwordComplexityValidation, { 
-      message: "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character"
-    }),
+  email: z.string().min(1, { message: "Required"}).email({ message: "Invalid email address." }),
+  password: PasswordSchema,
   confirmPassword: z.string(),
   })
   .refine(data => data.password === data.confirmPassword, {
@@ -127,14 +126,14 @@ export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, 
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-bold">Password</FormLabel>
-              <FormControl>
+                <FormControl>
                   <div className="flex gap-2">
                     <Input type={showPassword ? "text" : "password"} {...field} />
                     <Toggle variant="outline" onClick={toggleShowPassword}>
                       {!showPassword ? <Eye /> : <EyeOff />}
                     </Toggle>
                   </div>
-              </FormControl>
+                </FormControl>
               <FormDescription>
                 Check password requirements
                 <TooltipProvider>
