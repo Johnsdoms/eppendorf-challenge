@@ -28,6 +28,9 @@ export const columns: ColumnDef<Product>[] = [
             onSort={() => column.toggleSorting(column.getIsSorted() === "asc")}/>
         )
       },
+      cell: ({ row }) => {
+        return <div className="pl-4">{row.getValue("id")}</div>
+      }
   },
   {
     accessorKey: "location",
@@ -40,6 +43,9 @@ export const columns: ColumnDef<Product>[] = [
           onSort={() => column.toggleSorting(column.getIsSorted() === "asc")}/>
       )
     },
+    cell: ({ row }) => {
+      return <div className="pl-4">{row.getValue("location")}</div>
+    }
   },
   {
     accessorKey: "type",
@@ -52,6 +58,9 @@ export const columns: ColumnDef<Product>[] = [
           onSort={() => column.toggleSorting(column.getIsSorted() === "asc")}/>
       )
     },
+    cell: ({ row }) => {
+      return <div className="pl-4">{row.getValue("type")}</div>
+    }
   },
   {
     accessorKey: "device_health",
@@ -64,6 +73,9 @@ export const columns: ColumnDef<Product>[] = [
           onSort={() => column.toggleSorting(column.getIsSorted() === "asc")}/>
       )
     },
+    cell: ({ row }) => {
+      return <div className="pl-4">{row.getValue("device_health")}</div>
+    }
   },
   {
     accessorKey: "last_used",
@@ -76,6 +88,9 @@ export const columns: ColumnDef<Product>[] = [
           onSort={() => column.toggleSorting(column.getIsSorted() === "asc")}
         />
       )
+    },
+    cell: ({ row }) => {
+      return <div className="pl-4">{row.getValue("last_used")}</div>
     }
   },
   {
@@ -98,7 +113,7 @@ export const columns: ColumnDef<Product>[] = [
         currency: "USD",
       }).format(amount)
  
-      return <div className="text-right">{formatted}</div>
+      return <div className="text-right pr-4">{formatted}</div>
     },
   },
   {
@@ -124,7 +139,7 @@ export const columns: ColumnDef<Product>[] = [
       },
       cell: ({ row }) => {
         return (
-          <div className="flex justify-end items-center gap-1">
+          <div className="flex justify-end items-center gap-1 pr-4">
             <div className="w-4 h-4 rounded-full" style={{ backgroundColor: row.getValue("color") }} />
             <span className="min-w-16 text-right">{row.getValue("color")}</span>
           </div>
