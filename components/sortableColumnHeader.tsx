@@ -34,7 +34,9 @@ function SortedIcon({className, type, sortDirection}: SortedIconProps) {
   if (type === "numeric") {
     return sortDirection === "asc" ? <ArrowDown01 className={className} /> : <ArrowDown10 className={className} />;
   }
-  return sortDirection === "asc" ? <CalendarArrowUp className={className} /> : <CalendarArrowDown className={className} />;
+  if (type === "date") {
+    return sortDirection === "asc" ? <CalendarArrowUp className={className} /> : <CalendarArrowDown className={className} />;
+  };
 }
 
 export function SortableColumnHeader({title, type, sortDirection, onSort}: SortableColumnHeaderProps) {  
