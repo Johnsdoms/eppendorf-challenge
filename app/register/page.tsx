@@ -71,7 +71,7 @@ export default function Register() {
 
   return (
     <div className="flex items-center min-h-screen min-w-full">
-      <main className="w-2/4 m-auto">
+      <main className="w-2/4 max-w-xl m-auto">
         <Card>
           <CardHeader>
             <CardTitle>{cardTitle}</CardTitle>
