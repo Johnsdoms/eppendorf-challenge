@@ -48,7 +48,9 @@ export function NameForm({nameInitialValue, onNameSubmit}: NameFormProps) {
             <FormItem>
               <FormLabel className="font-bold">Name</FormLabel>
               <FormControl>
-                <Input placeholder="e.g. Jonas" {...field} />
+                <Input 
+                  className={`${!!form.formState.errors["username"] && "border-red-400 border-2"}`} 
+                  placeholder="e.g. Jonas" {...field} />
               </FormControl>
               <FormDescription>
                 Pick a name that is at least 2 characters long.

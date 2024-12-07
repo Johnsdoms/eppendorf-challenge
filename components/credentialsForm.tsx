@@ -48,6 +48,8 @@ const CredentialsFormSchema = z.object({
   password: PasswordSchema,
   });
 
+const errorInputStyling = "border-red-400 border-2";
+
 export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, onBackClick }: CredentialsFormProps) {  
   const form = useForm<z.infer<typeof CredentialsFormSchema>>({
     mode: "onTouched",
@@ -95,7 +97,9 @@ export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, 
             <FormItem>
               <FormLabel className="font-bold">Email</FormLabel>
               <FormControl>
-                <Input placeholder="e.g. me@me.com" {...field} />
+                <Input 
+                  className={`${!!form.formState.errors["email"] && errorInputStyling}`}
+                  placeholder="e.g. me@me.com" {...field} />
               </FormControl>
               <FormDescription>
                 Enter a valid email address.
@@ -112,7 +116,10 @@ export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, 
               <FormLabel className="font-bold">Password</FormLabel>
                 <FormControl>
                   <div className="flex gap-2">
-                    <Input type={showPassword ? "text" : "password"} {...field} />
+                    <Input 
+                      className={`${!!form.formState.errors["password"] && errorInputStyling}`}
+                      type={showPassword ? "text" : "password"} 
+                      {...field} />
                     <Toggle variant="outline" onClick={toggleShowPassword}>
                       {!showPassword ? <Eye /> : <EyeOff />}
                     </Toggle>
