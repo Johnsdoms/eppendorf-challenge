@@ -57,7 +57,7 @@ export function NameForm({ nameInitialValue, onNameSubmit }: NameFormProps) {
               <FormDescription>
                 Pick a name that is at least 2 characters long.
               </FormDescription>
-              <FormMessage />
+              <FormMessage data-test-id="name-message" />
             </FormItem>
           )}
         />

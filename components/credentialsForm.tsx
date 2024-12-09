@@ -105,7 +105,7 @@ export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, 
               <FormDescription>
                 Enter a valid email address.
               </FormDescription>
-              <FormMessage />
+              <FormMessage data-test-id="email-message" />
             </FormItem>
           )}
         />
@@ -122,7 +122,7 @@ export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, 
                     type={showPassword ? "text" : "password"}
                     {...field}
                   />
-                  <Toggle variant="outline" onClick={toggleShowPassword}>
+                  <Toggle data-test-id="password-visibility-toggle" variant="outline" onClick={toggleShowPassword}>
                     {!showPassword ? <Eye /> : <EyeOff />}
                   </Toggle>
                 </div>
@@ -145,7 +145,7 @@ export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, 
                   </Tooltip>
                 </TooltipProvider>
               </FormDescription>
-              <FormMessage />
+              <FormMessage data-test-id="password-message" />
             </FormItem>
           )}
         />

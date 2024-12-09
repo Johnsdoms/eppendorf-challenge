@@ -74,7 +74,7 @@ export default function Register() {
       <main className="w-2/4 max-w-xl m-auto">
         <Card>
           <CardHeader>
-            <CardTitle>{cardTitle}</CardTitle>
+            <CardTitle data-test-id="card-title">{cardTitle}</CardTitle>
             <CardDescription>To continue to the app, please register:</CardDescription>
           </CardHeader>
           <CardContent>
