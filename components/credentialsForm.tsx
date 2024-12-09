@@ -99,6 +99,7 @@ export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, 
                 <Input
                   className={`${!!form.formState.errors.email && errorInputStyling}`}
                   placeholder="e.g. me@me.com"
+                  autoComplete="email"
                   {...field}
                 />
               </FormControl>
@@ -120,6 +121,7 @@ export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, 
                   <Input
                     className={`${!!form.formState.errors.password && errorInputStyling}`}
                     type={showPassword ? "text" : "password"}
+                    autoComplete="new-password"
                     {...field}
                   />
                   <Toggle data-test-id="password-visibility-toggle" variant="outline" onClick={toggleShowPassword}>

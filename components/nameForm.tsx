@@ -51,6 +51,7 @@ export function NameForm({ nameInitialValue, onNameSubmit }: NameFormProps) {
                 <Input
                   className={`${!!form.formState.errors.username && "border-red-400 border-2"}`}
                   placeholder="e.g. Jonas"
+                  autoComplete="name"
                   {...field}
                 />
               </FormControl>
