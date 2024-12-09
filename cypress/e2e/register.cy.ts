@@ -96,7 +96,7 @@ describe("Register", () => {
     cy.get("button").contains("Register").as("registerButton").should("not.be.disabled");
   });
 
-  it.only("Can navigate between steps", () => {
+  it("Can navigate between steps", () => {
     cy.get("input[name='username']")
       .type("Fry")
       .blur();
