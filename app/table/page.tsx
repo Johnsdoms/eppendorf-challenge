@@ -4,7 +4,7 @@ import { columns } from "./columns";
 import { DataTable } from "./data-table";
 
 function getData(): Product[] {
-  // simpy return the data from the json file
+  // simpy return the data from the json file for this prototype
   return data as Product[];
 }
 
