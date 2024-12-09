@@ -1,5 +1,5 @@
-import Link from "next/link"
-import { Card } from "./ui/card"
+import Link from "next/link";
+import { Card } from "./ui/card";
 
 interface PageLinkProps {
   href: string
@@ -18,5 +18,5 @@ export function PageLink({ href, name, children }: PageLinkProps) {
       </Card>
 
     </Link>
-  )
+  );
 }

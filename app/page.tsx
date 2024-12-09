@@ -1,5 +1,5 @@
-import { PageLink } from "@/components/pageLink"
-import { KeyRound, Table } from "lucide-react"
+import { PageLink } from "@/components/pageLink";
+import { KeyRound, Table } from "lucide-react";
 
 export default function Home() {
   return (
@@ -19,5 +19,5 @@ export default function Home() {
         </div>
       </main>
     </div>
-  )
+  );
 }

@@ -1,5 +1,5 @@
-"use client"
-import { Button } from "@/components/ui/button"
+"use client";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -8,20 +8,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Toggle } from "@/components/ui/toggle"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Toggle } from "@/components/ui/toggle";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { ChevronLeft, Eye, EyeOff } from "lucide-react"
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+} from "@/components/ui/tooltip";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ChevronLeft, Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 export interface Credentials {
   email: string
@@ -40,14 +40,14 @@ const PasswordSchema = z
   .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter." })
   .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter." })
   .regex(/\d/, { message: "Password must contain at least one number." })
-  .regex(/[!@#$%^&*(),.?":{}|<>]/, { message: "Password must contain at least one special character." })
+  .regex(/[!@#$%^&*(),.?":{}|<>]/, { message: "Password must contain at least one special character." });
 
 const CredentialsFormSchema = z.object({
   email: z.string().min(1, { message: "Required" }).email({ message: "Invalid email address." }),
   password: PasswordSchema,
-})
+});
 
-const errorInputStyling = "border-red-400 border-2"
+const errorInputStyling = "border-red-400 border-2";
 
 export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, onBackClick }: CredentialsFormProps) {
   const form = useForm<z.infer<typeof CredentialsFormSchema>>({
@@ -57,33 +57,33 @@ export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, 
       email: credentialsInitialValue.email ?? "",
       password: credentialsInitialValue.password ?? "",
     },
-  })
+  });
 
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
 
   const toggleShowPassword = () => {
-    setShowPassword(prev => !prev)
-  }
+    setShowPassword(prev => !prev);
+  };
 
   function onSubmit(data: z.infer<typeof CredentialsFormSchema>) {
-    onCredentialsSubmit(data)
+    onCredentialsSubmit(data);
   }
 
   function handleBackClick() {
-    const dirtyFields = Object.keys(form.formState.dirtyFields) as Array<keyof Credentials>
+    const dirtyFields = Object.keys(form.formState.dirtyFields) as Array<keyof Credentials>;
 
-    const validDirtyFields: Partial<Credentials> = {}
+    const validDirtyFields: Partial<Credentials> = {};
 
     dirtyFields.forEach((field) => {
       // if field is dirty but has error, do not save input
       if (form.formState.errors[field]) {
-        return
+        return;
       }
 
-      validDirtyFields[field] = form.getValues(field)
-    })
+      validDirtyFields[field] = form.getValues(field);
+    });
 
-    onBackClick(validDirtyFields)
+    onBackClick(validDirtyFields);
   }
 
   return (
@@ -159,5 +159,5 @@ export function CredentialsForm({ credentialsInitialValue, onCredentialsSubmit, 
         </div>
       </form>
     </Form>
-  )
+  );
 }

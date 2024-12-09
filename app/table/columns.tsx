@@ -1,10 +1,10 @@
-"use client"
-import type { ColumnDef, Row } from "@tanstack/react-table"
-import { SortableColumnHeader } from "@/components/sortableColumnHeader"
-import { hexSortingFn } from "@/lib/sortFns"
+"use client";
+import type { ColumnDef, Row } from "@tanstack/react-table";
+import { SortableColumnHeader } from "@/components/sortableColumnHeader";
+import { hexSortingFn } from "@/lib/sortFns";
 
 // simplification of what a valid hex value is
-type ColorValueHex = `#${string}`
+type ColorValueHex = `#${string}`;
 
 export interface Product {
   id: number
@@ -27,10 +27,10 @@ export const columns: ColumnDef<Product>[] = [
           sortDirection={column.getIsSorted()}
           onSort={() => column.toggleSorting(column.getIsSorted() === "asc")}
         />
-      )
+      );
     },
     cell: ({ row }) => {
-      return <div className="pl-4">{row.getValue("id")}</div>
+      return <div className="pl-4">{row.getValue("id")}</div>;
     },
   },
   {
@@ -43,10 +43,10 @@ export const columns: ColumnDef<Product>[] = [
           sortDirection={column.getIsSorted()}
           onSort={() => column.toggleSorting(column.getIsSorted() === "asc")}
         />
-      )
+      );
     },
     cell: ({ row }) => {
-      return <div className="pl-4">{row.getValue("location")}</div>
+      return <div className="pl-4">{row.getValue("location")}</div>;
     },
   },
   {
@@ -59,10 +59,10 @@ export const columns: ColumnDef<Product>[] = [
           sortDirection={column.getIsSorted()}
           onSort={() => column.toggleSorting(column.getIsSorted() === "asc")}
         />
-      )
+      );
     },
     cell: ({ row }) => {
-      return <div className="pl-4">{row.getValue("type")}</div>
+      return <div className="pl-4">{row.getValue("type")}</div>;
     },
   },
   {
@@ -75,10 +75,10 @@ export const columns: ColumnDef<Product>[] = [
           sortDirection={column.getIsSorted()}
           onSort={() => column.toggleSorting(column.getIsSorted() === "asc")}
         />
-      )
+      );
     },
     cell: ({ row }) => {
-      return <div className="pl-4">{row.getValue("device_health")}</div>
+      return <div className="pl-4">{row.getValue("device_health")}</div>;
     },
   },
   {
@@ -91,10 +91,10 @@ export const columns: ColumnDef<Product>[] = [
           sortDirection={column.getIsSorted()}
           onSort={() => column.toggleSorting(column.getIsSorted() === "asc")}
         />
-      )
+      );
     },
     cell: ({ row }) => {
-      return <div className="pl-4">{row.getValue("last_used")}</div>
+      return <div className="pl-4">{row.getValue("last_used")}</div>;
     },
   },
   {
@@ -109,16 +109,16 @@ export const columns: ColumnDef<Product>[] = [
             onSort={() => column.toggleSorting(column.getIsSorted() === "asc")}
           />
         </div>
-      )
+      );
     },
     cell: ({ row }) => {
-      const amount = Number.parseFloat(row.getValue("price"))
+      const amount = Number.parseFloat(row.getValue("price"));
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
-      }).format(amount)
+      }).format(amount);
 
-      return <div className="text-right pr-4">{formatted}</div>
+      return <div className="text-right pr-4">{formatted}</div>;
     },
   },
   {
@@ -131,14 +131,14 @@ export const columns: ColumnDef<Product>[] = [
             type="numeric"
             sortDirection={column.getIsSorted()}
             onSort={() => {
-              column.toggleSorting(column.getIsSorted() === "asc")
+              column.toggleSorting(column.getIsSorted() === "asc");
             }}
           />
         </div>
-      )
+      );
     },
     sortingFn: (rowA: Row<Product>, rowB: Row<Product>): number => {
-      return hexSortingFn(rowA, rowB)
+      return hexSortingFn(rowA, rowB);
     },
     cell: ({ row }) => {
       return (
@@ -146,7 +146,7 @@ export const columns: ColumnDef<Product>[] = [
           <div className="w-4 h-4 rounded-full" style={{ backgroundColor: row.getValue("color") }} />
           <span className="min-w-16 text-right">{row.getValue("color")}</span>
         </div>
-      )
+      );
     },
   },
-]
+];

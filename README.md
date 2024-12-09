@@ -8,12 +8,11 @@ To check out the created solution, clone repository and run:
 pnpm install # or use other package manager if you prefer
 ```
 
-and then 
+and then
 
 ```bash
 pnpm dev
 ```
-
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result and start navigating the two task soltuions from there.
 

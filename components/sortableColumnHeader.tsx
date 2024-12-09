@@ -1,5 +1,5 @@
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   ArrowDown01,
   ArrowDown10,
@@ -8,11 +8,11 @@ import {
   ArrowUpDown,
   CalendarArrowDown,
   CalendarArrowUp,
-} from "lucide-react"
+} from "lucide-react";
 
-type SortDirection = "asc" | "desc" | false
+type SortDirection = "asc" | "desc" | false;
 
-type ColumnType = "alpha" | "numeric" | "date"
+type ColumnType = "alpha" | "numeric" | "date";
 
 interface SortableColumnHeaderProps {
   title: string
@@ -29,13 +29,13 @@ interface SortedIconProps {
 
 function SortedIcon({ className, type, sortDirection }: SortedIconProps) {
   if (type === "alpha") {
-    return sortDirection === "asc" ? <ArrowDownAz className={className} /> : <ArrowDownZa className={className} />
+    return sortDirection === "asc" ? <ArrowDownAz className={className} /> : <ArrowDownZa className={className} />;
   }
   if (type === "numeric") {
-    return sortDirection === "asc" ? <ArrowDown01 className={className} /> : <ArrowDown10 className={className} />
+    return sortDirection === "asc" ? <ArrowDown01 className={className} /> : <ArrowDown10 className={className} />;
   }
   if (type === "date") {
-    return sortDirection === "asc" ? <CalendarArrowUp className={className} /> : <CalendarArrowDown className={className} />
+    return sortDirection === "asc" ? <CalendarArrowUp className={className} /> : <CalendarArrowDown className={className} />;
   };
 }
 
@@ -55,5 +55,5 @@ export function SortableColumnHeader({ title, type, sortDirection, onSort }: Sor
         </Badge>
       )}
     </Button>
-  )
+  );
 }
